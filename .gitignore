@@ -1,0 +1,9 @@
+# vscode
+.vscode/
+
+# xmake
+build/
+.xmake/
+
+#clangd
+.cache/
