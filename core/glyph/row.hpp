@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glyph.h"
+#include "glyph.hpp"
 
 namespace lexi {
 namespace core {
@@ -9,7 +9,7 @@ class Row : public Glyph {
  public:
   void Insert(std::shared_ptr<Glyph> glyph, int32_t index) override;
   void Draw(Window* win) override;
-  bool Intersects(const Point& pt) override;
+  bool Intersects(const Pointd& pt) override;
 };
 
 }  // namespace core

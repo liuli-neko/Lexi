@@ -7,6 +7,7 @@ set_languages("c++17")
 target("main")
     add_includedirs(".")
     add_files("core/glyph/*.cc")
+    add_files("core/window/*.cc")
     set_kind("binary")
     add_files("main.cc")
 

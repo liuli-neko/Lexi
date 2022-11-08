@@ -3,19 +3,16 @@
 #include <stdint.h>
 
 #include <algorithm>
-#include <deque>
+#include <list>
 #include <memory>
 #include <unordered_map>
 #include <vector>
 
-#include "common/log/lexi_log.h"
+#include "common/log/lexi_log.hpp"
+#include "core/window/window.hpp"
 
 namespace lexi {
 namespace core {
-
-class Window;
-class Rect;
-class Point;
 /**
  * @brief Glyph
  * 用于定义富文本中各种可视化元素
@@ -59,7 +56,7 @@ class Glyph {
    *
    * @param rect 矩形
    */
-  virtual auto Bounds(Rect* rect) -> void;
+  virtual auto Bounds(Rectd* rect) -> void;
   /**
    * @brief 返回图元和点是否相交
    *
@@ -67,11 +64,12 @@ class Glyph {
    * @return true 点在图元内
    * @return false 点不在图元内
    */
-  virtual auto Intersects(const Point& point) -> bool;
+  virtual auto Intersects(const Pointd& point) -> bool;
 
  private:
-  std::deque<std::shared_ptr<Glyph>> childs_;
+  std::list<std::shared_ptr<Glyph>> childs_;
   std::weak_ptr<Glyph> parent_;
+  Rectd rect_;
 };
 
 }  // namespace core

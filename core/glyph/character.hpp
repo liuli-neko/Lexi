@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glyph.h"
+#include "glyph.hpp"
 
 namespace lexi {
 namespace core {
@@ -8,7 +8,7 @@ namespace core {
 class Character : public Glyph {
  public:
   void Draw(Window* win) override;
-  bool Intersects(const Point& pt) override;
+  bool Intersects(const Pointd& pt) override;
 };
 
 }  // namespace core
