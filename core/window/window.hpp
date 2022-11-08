@@ -4,18 +4,12 @@
 #include <Btk/context.hpp>
 #include <Btk/widget.hpp>
 
+#include "common/utils.hpp"
+
 namespace lexi {
 namespace core {
 
-using Pointd = Btk::PointImpl<double>;
-using StringView = Btk::u8string_view;
-using Mat = Btk::PixBuffer;
-using Color = Btk::Color;
-using Rectd = Btk::RectImpl<double>;
-
 class WindowImp;
-
-enum LineType { SOLID_LINE = 0, DOTTED_LINE = 1, TYPE_SIZE = 2 };
 
 class Window {
 public:
@@ -31,6 +25,7 @@ public:
 
 private:
   WindowImp *imp_;
+  void *ctxt;
 };
 
 } // namespace core

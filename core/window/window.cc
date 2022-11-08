@@ -1,24 +1,17 @@
 #include "window.hpp"
-#include "Btk/widget.hpp"
+#include "window_imp.hpp"
 
 namespace lexi {
 namespace core {
 
-class WindowImp {
-public:
-  WindowImp() {}
-  auto DrawRect(const Rectd &rect) const -> void {}
-  auto DrawString(StringView str) const -> void {}
-  auto DrawImg(const Mat &img) const -> void {}
-  auto DrawLine(const Pointd &x, const Pointd &y, const Color &color,
-                const int thickness, const LineType &line_type) const -> void {}
-  auto SetPainterColor(const Color &color) -> void {}
-
-private:
-};
-
-Window::Window() { imp_ = new WindowImp(); }
-Window::~Window() { delete imp_; }
+Window::Window() {
+  ctxt = static_cast<void *>(new Btk::UIContext);
+  imp_ = new WindowImp();
+}
+Window::~Window() {
+  delete imp_;
+  delete static_cast<Btk::UIContext *>(ctxt);
+}
 auto Window::DrawRect(const Rectd &rect) const -> void { imp_->DrawRect(rect); }
 auto Window::DrawString(StringView str) const -> void { imp_->DrawString(str); }
 auto Window::DrawImg(const Mat &img) const -> void { imp_->DrawImg(img); }
