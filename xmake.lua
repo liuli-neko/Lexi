@@ -4,13 +4,21 @@ add_packages("btk")
 
 set_languages("c++17")
 
+if is_plat("linux") then 
+    add_requires("pango", "pangocairo", "cairo", "libsdl", "libx11")
+    add_packages("pango", "pangocairo", "cairo", "libsdl", "libx11")
+end
+
 target("main")
+    if is_plat("linux") then
+        add_links("X11", "pthread")
+    end
     add_includedirs(".")
     add_files("core/glyph/*.cc")
     add_files("core/window/*.cc")
     set_kind("binary")
     add_files("main.cc")
-
+target_end()
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --

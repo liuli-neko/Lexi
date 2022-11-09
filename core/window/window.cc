@@ -13,8 +13,12 @@ Window::~Window() {
   delete static_cast<Btk::UIContext *>(ctxt);
 }
 auto Window::DrawRect(const Rectd &rect) const -> void { imp_->DrawRect(rect); }
-auto Window::DrawString(StringView str) const -> void { imp_->DrawString(str); }
-auto Window::DrawImg(const Mat &img) const -> void { imp_->DrawImg(img); }
+auto Window::DrawString(StringView str, const Rectd &rect) const -> void {
+  imp_->DrawString(str, rect);
+}
+auto Window::DrawImg(const Mat &img, const Rectd &rect) const -> void {
+  imp_->DrawImg(img, rect);
+}
 auto Window::DrawLine(const Pointd &x, const Pointd &y, const Color &color,
                       const int thickness, const LineType &line_type) const
     -> void {
