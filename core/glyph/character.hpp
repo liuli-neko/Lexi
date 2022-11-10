@@ -6,10 +6,12 @@ namespace lexi {
 namespace core {
 
 class Character : public Glyph {
- public:
-  void Draw(Window* win) override;
-  bool Intersects(const Pointd& pt) override;
+  DEFINE_GLYPH_CLASS_ONLY_BY_NEW(Character);
+
+public:
+  [[noreturn]] auto Draw(Window *win) -> void override;
+  [[nodiscard]] auto Intersects(const Pointd &pt) -> bool override;
 };
 
-}  // namespace core
-}  // namespace lexi
+} // namespace core
+} // namespace lexi

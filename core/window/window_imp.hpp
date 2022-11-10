@@ -17,7 +17,9 @@ public:
   auto DrawLine(const Pointd &x, const Pointd &y, const Color &color,
                 const int thickness, const LineType &line_type) const -> void;
   auto SetPainterColor(const Color &color) -> void;
+
 private:
+  Painter *painter_;
 };
 
 } // namespace core

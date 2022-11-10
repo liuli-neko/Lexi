@@ -12,5 +12,7 @@ using Mat = Btk::PixBuffer;
 using Color = Btk::Color;
 using Rectd = Btk::RectImpl<double>;
 using LineType = Btk::DashStyle;
+using Painter = Btk::Painter;
+using Pen = Btk::Pen;
 
 } // namespace lexi

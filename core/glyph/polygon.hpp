@@ -6,10 +6,10 @@ namespace lexi {
 namespace core {
 
 class Polygon : public Glyph {
- public:
-  void Draw(Window* win) override;
-  bool Intersects(const Pointd& pt) override;
+public:
+  [[noreturn]] auto Draw(Window *win) -> void override;
+  [[nodiscard]] auto Intersects(const Pointd &pt) -> bool override;
 };
 
-}  // namespace core
-}  // namespace lexi
+} // namespace core
+} // namespace lexi
