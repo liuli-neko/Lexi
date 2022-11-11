@@ -11,15 +11,18 @@ namespace core {
 class WindowImp : public Btk::Widget {
 public:
   WindowImp();
+  ~WindowImp();
   auto DrawRect(const Rectd &rect) const -> void;
   auto DrawString(StringView str, const Rectd &rect) const -> void;
   auto DrawImg(const Mat &img, const Rectd &rect) const -> void;
-  auto DrawLine(const Pointd &x, const Pointd &y, const Color &color,
-                const int thickness, const LineType &line_type) const -> void;
+  auto DrawLine(const Pointd &x, const Pointd &y) const -> void;
   auto SetPainterColor(const Color &color) -> void;
+  auto GetPainter() -> Painter *;
+  auto GetPen() -> Pen *;
 
 private:
   Painter *painter_;
+  Pen *pen_;
 };
 
 } // namespace core

@@ -5,12 +5,9 @@
 namespace lexi {
 namespace core {
 
-  void Character::Draw(Window *win) {
-    
-  }
-  bool Character::Intersects(const Pointd &pt){
-
-  }
+auto Character::Draw(Window *win) -> void {
+  win->DrawString(String::from(&character_, 1), rect_);
+}
 
 } // namespace core
 } // namespace lexi

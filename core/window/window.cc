@@ -8,22 +8,25 @@ Window::Window() {
   ctxt = static_cast<void *>(new Btk::UIContext);
   imp_ = new WindowImp();
 }
+
 Window::~Window() {
   delete imp_;
   delete static_cast<Btk::UIContext *>(ctxt);
 }
+
 auto Window::DrawRect(const Rectd &rect) const -> void { imp_->DrawRect(rect); }
 auto Window::DrawString(StringView str, const Rectd &rect) const -> void {
   imp_->DrawString(str, rect);
 }
+
 auto Window::DrawImg(const Mat &img, const Rectd &rect) const -> void {
   imp_->DrawImg(img, rect);
 }
-auto Window::DrawLine(const Pointd &x, const Pointd &y, const Color &color,
-                      const int thickness, const LineType &line_type) const
-    -> void {
-  imp_->DrawLine(x, y, color, thickness, line_type);
+
+auto Window::DrawLine(const Pointd &x, const Pointd &y) const -> void {
+  imp_->DrawLine(x, y);
 }
+
 auto Window::SetPainterColor(const Color &color) -> void {
   imp_->SetPainterColor(color);
 }

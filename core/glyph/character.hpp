@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Btk/defs.hpp"
 #include "glyph.hpp"
 
 namespace lexi {
@@ -9,8 +10,9 @@ class Character : public Glyph {
   DEFINE_GLYPH_CLASS_ONLY_BY_NEW(Character);
 
 public:
-  [[noreturn]] auto Draw(Window *win) -> void override;
-  [[nodiscard]] auto Intersects(const Pointd &pt) -> bool override;
+  auto Draw(Window *win) -> void override;
+protected:
+  uchar_t character_;
 };
 
 } // namespace core
