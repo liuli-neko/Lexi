@@ -19,7 +19,9 @@ LayoutNode::~LayoutNode() {
 
 auto LayoutNode::GetDefaultSize() -> std::pair<double, double> {
   if (fabs(rect_.x + 1) > 1e-8 && fabs(rect_.y + 1) > 1e-8) {
-    return std::make_pair(rect_.x, rect_.y);
+    if (rect_.x > minize_size_.first && rect_.y > minize_size_.second) {
+      return std::make_pair(rect_.x, rect_.y);
+    }
   }
   return minize_size_;
 }
