@@ -6,14 +6,13 @@ namespace lexi {
 namespace core {
 
 LayoutHorizontal::LayoutHorizontal(Window *wigdet) : LayoutNode(wigdet) {
-  layout_mode = HORIZONTAL_ZOOM;
+  layout_mode_ = HORIZONTAL_ZOOM;
 }
 
-auto LayoutHorizontal::GetDefaultSize() -> std::pair<double, double> {
-  if (fabs(rect_.x + 1) > 1e-8 && fabs(rect_.y + 1) > 1e-8) {
-    if (rect_.w > minize_size_.first) {
-      return std::make_pair(rect_.w, minize_size_.second);
-    }
+auto LayoutHorizontal::GetScalingSize(const double scaling)
+    -> std::pair<double, double> {
+  if (scaling > 1) {
+    return std::make_pair(minize_size_.first * scaling, minize_size_.second);
   }
   return minize_size_;
 }

@@ -9,7 +9,7 @@ namespace core {
 class LayoutScaling : public LayoutNode {
 public:
   LayoutScaling(Window *wigdet = nullptr);
-  auto GetDefaultSize() -> std::pair<double, double> override;
+  auto GetScalingSize(const double = 1) -> std::pair<double, double> override;
 };
 
 } // namespace core

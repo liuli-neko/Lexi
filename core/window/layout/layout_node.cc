@@ -5,23 +5,17 @@ namespace lexi {
 namespace core {
 
 LayoutNode::LayoutNode(Window *widget) : widget_(widget) {
-  childs_.clear();
   rect_ = Rectd(-1, -1, -1, -1);
   minize_size_ = {-1, -1};
-  layout_mode = FREE_ZOOM;
+  layout_mode_ = FREE_ZOOM;
 }
 
-LayoutNode::~LayoutNode() {
-  for (auto &child : childs_) {
-    delete child;
-  }
-}
+auto LayoutNode::GetScalingSize(const double scaling)
+    -> std::pair<double, double> {
 
-auto LayoutNode::GetDefaultSize() -> std::pair<double, double> {
-  if (fabs(rect_.x + 1) > 1e-8 && fabs(rect_.y + 1) > 1e-8) {
-    if (rect_.x > minize_size_.first && rect_.y > minize_size_.second) {
-      return std::make_pair(rect_.x, rect_.y);
-    }
+  if (scaling > 1) {
+    return std::make_pair(minize_size_.first * scaling,
+                          minize_size_.second * scaling);
   }
   return minize_size_;
 }

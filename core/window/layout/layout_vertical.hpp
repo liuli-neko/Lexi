@@ -9,7 +9,8 @@ namespace core {
 class LayoutVertical : public LayoutNode {
 public:
   LayoutVertical(Window *wigdet = nullptr);
-  auto GetDefaultSize() -> std::pair<double, double> override;
+  auto GetScalingSize(const double scaling = 1)
+      -> std::pair<double, double> override;
 };
 
 } // namespace core

@@ -6,9 +6,10 @@ namespace lexi {
 namespace core {
 
 LayoutFixed::LayoutFixed(Window *wigdet) : LayoutNode(wigdet) {
-  layout_mode = FIXED_SIZE;
+  layout_mode_ = FIXED_SIZE;
 }
-auto LayoutFixed::GetDefaultSize() -> std::pair<double, double> {
+auto LayoutFixed::GetScalingSize(const double scaling)
+    -> std::pair<double, double> {
   return minize_size_;
 }
 

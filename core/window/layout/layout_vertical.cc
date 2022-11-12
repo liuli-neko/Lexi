@@ -7,13 +7,13 @@ namespace lexi {
 namespace core {
 
 LayoutVertical::LayoutVertical(Window *wigdet) : LayoutNode(wigdet) {
-  layout_mode = VERTICAL_ZOOM;
+  layout_mode_ = VERTICAL_ZOOM;
 }
-auto LayoutVertical::GetDefaultSize() -> std::pair<double, double> {
-  if (fabs(rect_.x + 1) > 1e-8 && fabs(rect_.y + 1) > 1e-8) {
-    if (rect_.h > minize_size_.second) {
-      return std::make_pair(minize_size_.first, rect_.h);
-    }
+auto LayoutVertical::GetScalingSize(const double scaling)
+    -> std::pair<double, double> {
+
+  if (scaling > 1) {
+    return std::make_pair(minize_size_.first, minize_size_.second * scaling);
   }
   return minize_size_;
 }
