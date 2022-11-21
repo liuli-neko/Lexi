@@ -9,14 +9,6 @@ namespace lexi {
 namespace core {
 
 class LayoutNode {
-public:
-  LayoutNode(Window *widget = nullptr);
-  virtual auto GetScalingSize(const double scaling = 1)
-      -> std::pair<double, double>;
-  virtual auto SetMinimizeSize(const std::pair<double, double> &size) -> void;
-  virtual auto SetAllowRect(const Rectd &rect) -> void;
-  inline auto GetLayoutMode() { return layout_mode_; }
-
 protected:
   Window *widget_;
   enum LayoutMode {
@@ -28,6 +20,14 @@ protected:
   } layout_mode_;
   std::pair<double, double> minize_size_;
   Rectd rect_;
+
+public:
+  LayoutNode(Window *widget = nullptr);
+  virtual auto GetScalingSize(const double scaling = 1)
+      -> std::pair<double, double>;
+  virtual auto SetMinimizeSize(const std::pair<double, double> &size) -> void;
+  virtual auto SetAllowRect(const Rectd &rect, const double scaling) -> void;
+  virtual auto GetLayoutMode() -> LayoutMode;
 };
 
 } // namespace core

@@ -25,7 +25,13 @@ auto LayoutNode::SetMinimizeSize(const std::pair<double, double> &size)
   minize_size_ = size;
 }
 
-auto LayoutNode::SetAllowRect(const Rectd &rect) -> void { rect_ = rect; }
+auto LayoutNode::GetLayoutMode() -> LayoutMode { return layout_mode_; }
+
+auto LayoutNode::SetAllowRect(const Rectd &rect, const double scaling) -> void {
+  if (widget_ != nullptr) {
+    widget_->SetBound(rect);
+  }
+}
 
 } // namespace core
 } // namespace lexi
