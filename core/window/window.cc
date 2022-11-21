@@ -31,5 +31,16 @@ auto Window::SetPainterColor(const Color &color) -> void {
   imp_->SetPainterColor(color);
 }
 
+auto Window::SetBound(const double x, const double y, const double w,
+                      const double h) -> void {
+  imp_->set_rect(x, y, w, h);
+}
+
+auto Window::Show() -> void { imp_->show(); }
+
+auto Window::SetBound(const Rectd &rect) -> void {
+  imp_->set_rect(rect.x, rect.y, rect.w, rect.h);
+}
+
 } // namespace core
 } // namespace lexi
