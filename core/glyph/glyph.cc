@@ -1,14 +1,22 @@
 #include "glyph.hpp"
+
 #include <cstddef>
+#include <iostream>
+
+#include "common/log/lexi_log.hpp"
+#include "core/checker/checker.hpp"
 
 namespace lexi {
 namespace core {
 
-Glyph::Glyph() { parent_ = nullptr; }
+Glyph::Glyph() : parent_(nullptr), rect_(0, 0, 0, 0) { childs_.clear(); }
 
 Glyph::~Glyph() {
-  for (auto &child : childs_) {
-    delete child;
+  for (auto child : childs_) {
+    if (child != nullptr) {
+      delete child;
+    }
+    child = nullptr;
   }
 }
 
@@ -51,5 +59,47 @@ auto Glyph::Intersects(const Pointd &point) -> bool {
   return false;
 }
 
-} // namespace core
-} // namespace lexi
+auto Glyph::Begin() -> TreeIterator { return TreeIterator(this); }
+auto Glyph::End() -> TreeIterator { return TreeIterator(nullptr); }
+
+auto preorder_traversal(const std::list<Glyph *> &values,
+                        std::stack<Glyph *> *stack) -> void {
+  for (auto iter = values.rbegin(); iter != values.rend(); ++iter) {
+    preorder_traversal((*iter)->childs_, stack);
+    stack->push(*iter);
+  }
+}
+
+Glyph::TreeIterator::TreeIterator(Glyph *root) {
+  if (root != nullptr) {
+    preorder_traversal(root->childs_, &stack_);
+    stack_.push(root);
+  }
+}
+
+auto Glyph::TreeIterator::operator*() -> Glyph & { return *stack_.top(); }
+auto Glyph::TreeIterator::operator++() -> void { stack_.pop(); }
+
+auto Glyph::CheckMe(Checker checker) -> void { checker.CheckGlyph(this); }
+
+auto Glyph::ToCharacter() -> String { return ""; }
+
+auto Glyph::TreeIterator::operator++(int _) -> TreeIterator {
+  ++(*this);
+  return *this;
+}
+
+auto Glyph::TreeIterator::operator->() const -> Glyph * { return stack_.top(); }
+
+auto Glyph::TreeIterator::operator==(const TreeIterator &iterator)
+    -> bool const {
+  return stack_ == iterator.stack_;
+}
+
+auto Glyph::TreeIterator::operator!=(const TreeIterator &iterator)
+    -> bool const {
+  return stack_ != iterator.stack_;
+}
+
+}  // namespace core
+}  // namespace lexi

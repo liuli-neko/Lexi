@@ -10,7 +10,6 @@ class Rectangle : public Glyph {
 
 public:
   auto Draw(Window *win) -> void override;
-  bool Intersects(const Pointd &pt) override;
 };
 
 } // namespace core

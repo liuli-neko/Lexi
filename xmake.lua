@@ -1,14 +1,23 @@
+-- 设置编译选项
+add_rules("mode.debug","mode.release","mode.asan")
+
+-- 依赖
 add_repositories("btk-project https://github.com/Btk-Project/xmake-repo")
 add_requires("btk")
 add_packages("btk")
 
+-- 设置c++版本
 set_languages("c++17")
 
+-- 平台依赖
 if is_plat("linux") then 
     add_requires("pango", "pangocairo", "cairo", "libsdl", "libx11")
     add_packages("pango", "pangocairo", "cairo", "libsdl", "libx11")
+elseif is_plat("windows") then
+    add_cxxflags("/utf-8")
 end
 
+-- main target
 target("main")
     if is_plat("linux") then
         add_links("X11", "pthread")
@@ -20,6 +29,21 @@ target("main")
     set_kind("binary")
     add_files("main.cc")
 target_end()
+
+-- test target
+if is_mode("debug") then
+    target("iterator_test")
+        if is_plat("linux") then
+            add_links("X11", "pthread")
+        end
+        add_includedirs(".")
+        add_files("core/glyph/*.cc")
+        add_files("core/window/*.cc")
+        add_files("core/window/layout/*.cc")
+        set_kind("binary")
+        add_files("test/iterator_test.cc")
+    target_end()
+end
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
