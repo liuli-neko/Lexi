@@ -11,17 +11,14 @@ set_languages("c++17")
 
 -- 平台依赖
 if is_plat("linux") then 
-    add_requires("pango", "pangocairo", "cairo", "libsdl", "libx11")
-    add_packages("pango", "pangocairo", "cairo", "libsdl", "libx11")
+    add_requires("pango", "pangocairo", "cairo", "libsdl", "libx11", "X11", "pthread")
+    add_packages("pango", "pangocairo", "cairo", "libsdl", "libx11", "X11", "pthread")
 elseif is_plat("windows") then
     add_cxxflags("/utf-8")
 end
 
 -- main target
 target("main")
-    if is_plat("linux") then
-        add_links("X11", "pthread")
-    end
     add_includedirs(".")
     add_files("core/glyph/*.cc")
     add_files("core/window/*.cc")
@@ -33,9 +30,6 @@ target_end()
 -- test target
 if is_mode("debug") then
     target("iterator_test")
-        if is_plat("linux") then
-            add_links("X11", "pthread")
-        end
         add_includedirs(".")
         add_files("core/glyph/*.cc")
         add_files("core/window/*.cc")

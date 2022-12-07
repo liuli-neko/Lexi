@@ -33,7 +33,7 @@ namespace core {
 class Checker;
 
 class HeapObject {
- protected:
+protected:
   HeapObject() = default;
 };
 
@@ -44,10 +44,10 @@ class HeapObject {
 class Glyph : public HeapObject {
   DEFINE_GLYPH_CLASS_ONLY_BY_NEW(Glyph);
 
- protected:
+protected:
   class TreeIterator;
 
- public:
+public:
   virtual ~Glyph();
   /**
    * @brief 插入一个图元到当前图元的子图元序列的index号位置
@@ -117,12 +117,12 @@ class Glyph : public HeapObject {
    */
   virtual auto ToCharacter() -> String;
 
- protected:
+protected:
   Glyph();
 
- protected:
+protected:
   class TreeIterator {
-   public:
+  public:
     TreeIterator(Glyph *root);
     auto operator*() -> Glyph &;
     auto operator++() -> void;
@@ -132,19 +132,21 @@ class Glyph : public HeapObject {
     auto operator->() const -> Glyph *;
     auto operator==(const TreeIterator &iterator) -> bool const;
     auto operator!=(const TreeIterator &iterator) -> bool const;
-
-   private:
-    std::stack<Glyph *> stack_;
+    auto IsDone() -> bool const;
+  private:
+    std::stack<
+        std::pair<std::list<Glyph *>::iterator, std::list<Glyph *>::iterator>>
+        stack_;
   };
 
- protected:
+protected:
   std::list<Glyph *> childs_;
   Glyph *parent_;
   Rectd rect_;
 
-  friend auto preorder_traversal(const std::list<Glyph *>& values,
+  friend auto preorder_traversal(const std::list<Glyph *> &values,
                                  std::stack<Glyph *> *stack) -> void;
 };
 
-}  // namespace core
-}  // namespace lexi
+} // namespace core
+} // namespace lexi

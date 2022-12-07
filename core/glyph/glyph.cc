@@ -72,13 +72,34 @@ auto preorder_traversal(const std::list<Glyph *> &values,
 
 Glyph::TreeIterator::TreeIterator(Glyph *root) {
   if (root != nullptr) {
-    preorder_traversal(root->childs_, &stack_);
-    stack_.push(root);
+    static std::list<Glyph *> root_list;
+    root_list.clear();
+    root_list.push_back(root);
+    stack_.push({root_list.begin(), root_list.end()});
   }
 }
 
-auto Glyph::TreeIterator::operator*() -> Glyph & { return *stack_.top(); }
-auto Glyph::TreeIterator::operator++() -> void { stack_.pop(); }
+auto Glyph::TreeIterator::operator*() -> Glyph & {
+  return **stack_.top().first;
+}
+auto Glyph::TreeIterator::operator++() -> void {
+  if ((*stack_.top().first)->childs_.size() > 0) {
+    stack_.push({(*stack_.top().first)->childs_.begin(),
+                 (*stack_.top().first)->childs_.end()});
+  } else {
+    while (!stack_.empty()) {
+      while (!stack_.empty() && stack_.top().first == stack_.top().second) {
+        stack_.pop();
+      }
+      if (!stack_.empty()) {
+        ++stack_.top().first;
+        if (stack_.top().first != stack_.top().second) {
+          break;
+        }
+      }
+    }
+  }
+}
 
 auto Glyph::CheckMe(Checker checker) -> void { checker.CheckGlyph(this); }
 
@@ -89,7 +110,9 @@ auto Glyph::TreeIterator::operator++(int _) -> TreeIterator {
   return *this;
 }
 
-auto Glyph::TreeIterator::operator->() const -> Glyph * { return stack_.top(); }
+auto Glyph::TreeIterator::operator->() const -> Glyph * {
+  return *stack_.top().first;
+}
 
 auto Glyph::TreeIterator::operator==(const TreeIterator &iterator)
     -> bool const {
@@ -101,5 +124,7 @@ auto Glyph::TreeIterator::operator!=(const TreeIterator &iterator)
   return stack_ != iterator.stack_;
 }
 
-}  // namespace core
-}  // namespace lexi
+auto Glyph::TreeIterator::IsDone() -> bool const { return stack_.empty(); }
+
+} // namespace core
+} // namespace lexi

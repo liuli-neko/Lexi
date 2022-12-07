@@ -5,9 +5,9 @@
 using namespace lexi::common;
 using namespace lexi::core;
 
-int main(int argc, char** argv) {
-  Character* character[30];
-  Character* glyph = Character::New();
+int main(int argc, char **argv) {
+  Character *character[30];
+  Character *glyph = Character::New();
 
   for (int i = 0; i < 26; ++i) {
     character[i] = Character::New();
@@ -39,6 +39,12 @@ int main(int argc, char** argv) {
 
   auto it = glyph->Begin();
   for (; it != glyph->End(); ++it) {
+    std::cout << it->ToCharacter() << " ";
+  }
+  std::cout << std::endl;
+
+  it = glyph->Begin();
+  for (; !it.IsDone(); it++) {
     std::cout << it->ToCharacter() << " ";
   }
   std::cout << std::endl;
