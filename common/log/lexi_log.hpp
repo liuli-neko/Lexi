@@ -2,23 +2,49 @@
 
 #include <stdio.h>
 
-#include <chrono>
+#include <iostream>
+#include <memory>
+#include <sstream>
+#include <vector>
 
-#define LOG_INFO(fmt, ...)                                                     \
-  printf("INFO - [%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__);       \
-  void(0)
+namespace lexi {
+namespace common {
+class LogMessageStream {
+ public:
+  LogMessageStream();
+  void AddOutPutSource(FILE* output_fd);
+  void write(const char* buf);
+  ~LogMessageStream();
 
-#define LOG_WARN(fmt, ...)                                                     \
-  printf("WARN - [%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__);       \
-  void(0)
+ private:
+  std::vector<FILE*> out_fd_;
+};
 
-#define LOG_ERROR(fmt, ...)                                                    \
-  printf("ERROR - [%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__);      \
-  exit(0)
+class CalibrateLog {
+ public:
+  CalibrateLog(const char* file, int32_t line);
+  ~CalibrateLog();
 
-#define ASSERT(cond, fmt, ...)                                                 \
-  if (!(cond)) {                                                               \
-    printf("ASSERT - [%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__);   \
-    exit(1);                                                                   \
-  }                                                                            \
-  void(0)
+  std::stringstream& stream();
+
+  static void AddOutPutSource(const std::string& output_file);
+  static void AddOutPutSource(FILE* output_fd);
+
+ private:
+  static LogMessageStream out_;
+  static std::stringstream stream_;
+};
+
+class AssertLog : public CalibrateLog {
+ public:
+  AssertLog(const char* file, int32_t line, bool cond);
+  ~AssertLog();
+
+ private:
+  bool cond_;
+};
+}  // namespace common
+}  // namespace lexi
+
+#define LOG lexi::common::CalibrateLog(__FILE__, __LINE__).stream()
+#define ASSERT(cond) lexi::common::AssertLog(__FILE__, __LINE__, cond).stream()

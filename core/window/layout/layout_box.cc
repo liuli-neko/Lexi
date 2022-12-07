@@ -221,7 +221,7 @@ auto Tree::Node::GetScalingSize(const double scaling)
     return std::make_pair(right_size.first + left_size.first,
                           right_size.second + left_size.second);
   }
-  ASSERT(false, "node tree error");
+  ASSERT(false) << "node tree error";
 }
 
 auto Tree::GetScalingSize(const double scaling) -> std::pair<double, double> {

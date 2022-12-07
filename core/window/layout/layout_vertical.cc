@@ -1,4 +1,5 @@
 #include "core/window/layout/layout_vertical.hpp"
+
 #include "common/log/lexi_log.hpp"
 #include "core/window/layout/layout_node.hpp"
 #include "layout_vertical.hpp"
@@ -11,7 +12,6 @@ LayoutVertical::LayoutVertical(Window *wigdet) : LayoutNode(wigdet) {
 }
 auto LayoutVertical::GetScalingSize(const double scaling)
     -> std::pair<double, double> {
-
   if (scaling > 1) {
     return std::make_pair(minize_size_.first, minize_size_.second * scaling);
   }
@@ -21,9 +21,9 @@ auto LayoutVertical::GetScalingSize(const double scaling)
 auto LayoutVertical::SetAllowRect(const Rectd &rect, const double scaling)
     -> void {
   if (widget_ != nullptr && scaling >= 1) {
-    ASSERT(scaling <= rect.h / minize_size_.second,
-           "scaling(%f) > max scaling(%f)", scaling,
-           rect.h / minize_size_.second);
+    ASSERT(scaling <= rect.h / minize_size_.second)
+        << "scaling(" << scaling << ") > max scaling("
+        << rect.h / minize_size_.second << ")";
     double width = minize_size_.first;
     double height = minize_size_.second * scaling;
     widget_->SetBound(rect.x + (rect.w - width) / 2,
@@ -31,5 +31,5 @@ auto LayoutVertical::SetAllowRect(const Rectd &rect, const double scaling)
   }
 }
 
-} // namespace core
-} // namespace lexi
+}  // namespace core
+}  // namespace lexi

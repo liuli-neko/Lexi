@@ -5,6 +5,8 @@ add_rules("mode.debug","mode.release","mode.asan")
 add_repositories("btk-project https://github.com/Btk-Project/xmake-repo")
 add_requires("btk")
 add_packages("btk")
+add_requires("eigen")
+add_packages("eigen")
 
 -- 设置c++版本
 set_languages("c++17")
@@ -17,6 +19,9 @@ elseif is_plat("windows") then
     add_cxxflags("/utf-8")
 end
 
+-- common file
+add_files("common/log/*.cpp")
+
 -- main target
 target("main")
     add_includedirs(".")
@@ -28,7 +33,7 @@ target("main")
 target_end()
 
 -- test target
-if is_mode("debug") then
+if not is_mode("release") then
     target("iterator_test")
         add_includedirs(".")
         add_files("core/glyph/*.cc")
@@ -36,6 +41,18 @@ if is_mode("debug") then
         add_files("core/window/layout/*.cc")
         set_kind("binary")
         add_files("test/iterator_test.cc")
+    target_end()
+
+    target("win_test")
+        if is_plat("linux") then
+            add_links("X11", "pthread")
+        end
+        add_includedirs(".")
+        add_files("core/glyph/*.cc")
+        add_files("core/window/*.cc")
+        add_files("core/window/layout/*.cc")
+        set_kind("binary")
+        add_files("test/win_test.cc")
     target_end()
 end
 --

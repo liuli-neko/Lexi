@@ -1,8 +1,10 @@
 #include "layout_toolbar.hpp"
-#include "common/log/lexi_log.hpp"
-#include "core/window/window.hpp"
+
 #include <algorithm>
 #include <utility>
+
+#include "common/log/lexi_log.hpp"
+#include "core/window/window.hpp"
 
 namespace lexi {
 namespace core {
@@ -46,7 +48,7 @@ auto LayoutToolbar::SetAllowRect(const Rectd &rect, const double scaling)
     -> void {
   if (widget_ != nullptr && scaling > 1) {
     widget_->SetBound(rect);
-    widget_->Show();
+    widget_->show();
     double x = rect.x;
     double y = rect.y;
     for (auto &tool_iterm : tools_) {
@@ -58,11 +60,11 @@ auto LayoutToolbar::SetAllowRect(const Rectd &rect, const double scaling)
       } else if (layout_mode_ == VERTICAL) {
         y += scaling * size.second;
       } else {
-        ASSERT(false, "undefined policy");
+        ASSERT(false) << "undefined policy";
       }
     }
   }
 }
 
-} // namespace core
-} // namespace lexi
+}  // namespace core
+}  // namespace lexi

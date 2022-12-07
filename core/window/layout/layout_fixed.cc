@@ -1,4 +1,5 @@
 #include "layout_fixed.hpp"
+
 #include "common/log/lexi_log.hpp"
 #include "core/window/layout/layout_node.hpp"
 
@@ -16,9 +17,9 @@ auto LayoutFixed::GetScalingSize(const double scaling)
 auto LayoutFixed::SetAllowRect(const Rectd &rect, const double scaling)
     -> void {
   if (widget_ != nullptr && scaling >= 1) {
-    ASSERT(scaling <= rect.w / minize_size_.first,
-           "scaling(%f) > max scaling(%f)", scaling,
-           rect.w / minize_size_.first);
+    ASSERT(scaling <= rect.w / minize_size_.first)
+        << "scaling(" << scaling << ") > max scaling("
+        << rect.w / minize_size_.first << ")";
     double width = minize_size_.first * scaling;
     double height = minize_size_.second;
     widget_->SetBound(rect.x + (rect.w - width) / 2,
@@ -26,5 +27,5 @@ auto LayoutFixed::SetAllowRect(const Rectd &rect, const double scaling)
   }
 }
 
-} // namespace core
-} // namespace lexi
+}  // namespace core
+}  // namespace lexi

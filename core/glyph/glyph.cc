@@ -34,7 +34,7 @@ auto Glyph::Insert(Glyph *glyph, int32_t index) -> void {
 auto Glyph::Remove(Glyph *glyph) -> void {
   auto it = std::find(childs_.begin(), childs_.end(), glyph);
   if (it == childs_.end()) {
-    LOG_WARN("Remove failed! the glyph is not in this!!!");
+    LOG << "Remove failed! the glyph is not in this!!!";
     return;
   }
   (*it)->parent_ = nullptr;
@@ -62,6 +62,13 @@ auto Glyph::Intersects(const Pointd &point) -> bool {
 auto Glyph::Begin() -> TreeIterator { return TreeIterator(this); }
 auto Glyph::End() -> TreeIterator { return TreeIterator(nullptr); }
 
+auto Glyph::ToString() -> String {
+  String str = ToCharacter();
+  for (const auto &iter : childs_) {
+    str.append(iter->ToString());
+  }
+}
+
 auto preorder_traversal(const std::list<Glyph *> &values,
                         std::stack<Glyph *> *stack) -> void {
   for (auto iter = values.rbegin(); iter != values.rend(); ++iter) {
@@ -69,7 +76,6 @@ auto preorder_traversal(const std::list<Glyph *> &values,
     stack->push(*iter);
   }
 }
-
 Glyph::TreeIterator::TreeIterator(Glyph *root) {
   if (root != nullptr) {
     static std::list<Glyph *> root_list;
@@ -118,7 +124,6 @@ auto Glyph::TreeIterator::operator==(const TreeIterator &iterator)
     -> bool const {
   return stack_ == iterator.stack_;
 }
-
 auto Glyph::TreeIterator::operator!=(const TreeIterator &iterator)
     -> bool const {
   return stack_ != iterator.stack_;
@@ -126,5 +131,5 @@ auto Glyph::TreeIterator::operator!=(const TreeIterator &iterator)
 
 auto Glyph::TreeIterator::IsDone() -> bool const { return stack_.empty(); }
 
-} // namespace core
-} // namespace lexi
+}  // namespace core
+}  // namespace lexi

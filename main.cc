@@ -12,6 +12,6 @@
 using namespace lexi::common;
 
 int main() {
-  LOG_INFO("this is a log %d", 1024);
+  LOG << "this is a log" << 1024;
   return 0;
 }

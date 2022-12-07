@@ -17,7 +17,7 @@ auto Character::SetValue(uchar_t ch) -> void { character_ = ch; }
 Character::Character(uchar_t ch) : character_(ch), Glyph() {}
 
 Character::~Character() {
-  LOG_INFO("delete CharacterGlyph[%p]:{%s}", this, ToCharacter().c_str());
+  LOG << "delete CharacterGlyph[" << this << "]:{" << ToCharacter() << "}";
 }
 
 }  // namespace core
