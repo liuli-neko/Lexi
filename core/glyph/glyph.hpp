@@ -139,6 +139,7 @@ class Glyph : public HeapObject {
   class TreeIterator {
    public:
     TreeIterator(Glyph *root);
+    auto operator=(const TreeIterator&) -> TreeIterator;
     auto operator*() -> Glyph &;
     auto operator++() -> void;
     auto operator++(int) -> TreeIterator;
@@ -150,7 +151,8 @@ class Glyph : public HeapObject {
     auto IsDone() -> bool const;
 
    private:
-    // std::list<Glyph *> root_list;
+    std::list<Glyph *> root_list;
+    int step;
     std::stack<
         std::pair<std::list<Glyph *>::iterator, std::list<Glyph *>::iterator>>
         stack_;

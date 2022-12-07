@@ -78,16 +78,32 @@ auto preorder_traversal(const std::list<Glyph *> &values,
 }
 Glyph::TreeIterator::TreeIterator(Glyph *root) {
   if (root != nullptr) {
-    static std::list<Glyph *> root_list;
     root_list.clear();
     root_list.push_back(root);
     stack_.push({root_list.begin(), root_list.end()});
   }
+  step = 0;
 }
 
 auto Glyph::TreeIterator::operator*() -> Glyph & {
   return **stack_.top().first;
 }
+
+auto Glyph::TreeIterator::operator=(const TreeIterator &it) -> TreeIterator {
+  root_list = it.root_list;
+  while (!stack_.empty()) {
+    stack_.pop();
+  }
+  if (!root_list.empty()) {
+    stack_.push({root_list.begin(), root_list.end()});
+  }
+  step = 0;
+  for (int i = 0; i < it.step; ++i) {
+    operator++();
+  }
+  return *this;
+}
+
 auto Glyph::TreeIterator::operator++() -> void {
   if ((*stack_.top().first)->childs_.size() > 0) {
     stack_.push({(*stack_.top().first)->childs_.begin(),
@@ -105,6 +121,7 @@ auto Glyph::TreeIterator::operator++() -> void {
       }
     }
   }
+  ++step;
 }
 
 auto Glyph::CheckMe(Checker checker) -> void { checker.CheckGlyph(this); }
@@ -131,5 +148,5 @@ auto Glyph::TreeIterator::operator!=(const TreeIterator &iterator)
 
 auto Glyph::TreeIterator::IsDone() -> bool const { return stack_.empty(); }
 
-}  // namespace core
-}  // namespace lexi
+} // namespace core
+} // namespace lexi

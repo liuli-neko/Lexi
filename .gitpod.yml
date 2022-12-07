@@ -4,13 +4,13 @@ image:
 tasks:
   - name: setup packages
     init: sudo apt update
-    command: sudo apt install libcairo2-dev libpango1.0-dev libsdl2-dev -y
+    command: sudo apt install libcairo2-dev libpango1.0-dev libsdl2-dev valgrind -y
   
   - name: setup xmake
     command: bash <(curl -fsSL https://xmake.io/shget.text)
 
   - name: generator compile_commands
-    command: xmake project -k compile_commands && xmake config -m debug && xmake
+    command: xmake project -k compile_commands && xmake config -m debug && xmake -y
 
 ports:
   - port: 6080
